@@ -11,8 +11,8 @@ static char module_docstring[] =
 static char example_docstring[] =
     "An example function to dump CryoSat data";
 
-/*-- unique exception object--*/
-static PyObject *exampleError;
+static PyObject *pyCryoSatIO_example(PyObject *self, PyObject *args);
+static PyObject *exampleError; /*-- unique exception object--*/ 
 
 //die Hauptfunktion
 static PyObject *pyCryoSatIO_example(PyObject *self, PyObject *args)
