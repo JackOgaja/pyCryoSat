@@ -1,5 +1,5 @@
 /*
-A module for reading CryoSat data sets
+Extension module for reading CryoSat data sets
 author: Jack Ogaja, jack_ogaja@brown.edu
 */
 

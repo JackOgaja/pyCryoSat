@@ -1,5 +1,4 @@
 from distutils.core import setup, Extension
-import numpy.distutils.misc_util
 
 rootDir = '/Users/jack/Arbeit/lynch_lab/data_processing/cryosat/codes/c_idl/cs_tools_2_3/lib'
 incDirs = [rootDir+'/mssl_shared',
