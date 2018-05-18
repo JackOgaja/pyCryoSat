@@ -4,7 +4,7 @@ author: Jack Ogaja, jack_ogaja@brown.edu
 */
 
 #include <Python.h>
-#include "pyCryoSat2IO.h"
+#include "pyCryoSatIO.h"
 
 static char module_docstring[] =
     "An interface for reading CryoSat data";
