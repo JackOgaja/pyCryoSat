@@ -7,15 +7,15 @@ author: Jack Ogaja, jack_ogaja@brown.edu
 #include "pyCryoSatIO.h"
 
 static char module_docstring[] =
-    "An interface for reading CryoSat data";
-static char example_docstring[] =
-    "An example function to dump CryoSat data";
+    "An extension for CryoSat2 Level 2 data IO";
+static char l2Iarray_docstring[] =
+    "function to read CryoSat2 L2 data into numpy arrays";
 
-static PyObject *pyCryoSatIO_example(PyObject *self, PyObject *args);
-static PyObject *exampleError; /*-- unique exception object--*/ 
+static PyObject *pyCryoSatIO_l2Iarray(PyObject *self, PyObject *args);
+static PyObject *arrayError; /*-- unique exception object--*/ 
 
 //die Hauptfunktion
-static PyObject *pyCryoSatIO_example(PyObject *self, PyObject *args)
+static PyObject *pyCryoSatIO_l2Iarray(PyObject *self, PyObject *args)
 {
     int narg;
     const char *fname;
@@ -25,14 +25,16 @@ static PyObject *pyCryoSatIO_example(PyObject *self, PyObject *args)
         return NULL;
 
     char *fileName = (char *)fname;
+    BASELINE fbase = (BASELINE) narg;
 
     /*-- Call the wrapped function --*/
-    int cn = main(narg=2, &fileName);
+    //int cn = main(narg=2, &fileName);
+    int cn = buffer(fileName, fbase);
 
     /*-- raise an exception if necessary --*/
    if (cn < 0) {
-       PyErr_SetString(exampleError,
-                    "There is a problem with the main function call");
+       PyErr_SetString(arrayError,
+                    "There is a problem with the l2Iarray function call");
         return NULL;
     }
 
@@ -41,7 +43,7 @@ static PyObject *pyCryoSatIO_example(PyObject *self, PyObject *args)
 } /* die Hauptfunktion */ 
 
 static PyMethodDef pyCryoSatIO_methods[] = {
-    {"example", pyCryoSatIO_example, METH_VARARGS, example_docstring},
+    {"l2Iarray", pyCryoSatIO_l2Iarray, METH_VARARGS, l2Iarray_docstring},
     {NULL, NULL, 0, NULL}
 }; 
 
@@ -64,9 +66,9 @@ PyMODINIT_FUNC PyInit_pyCryoSatIO(void)
     if (!module) return NULL;
 
     /*-- create a unique exception object --*/
-    exampleError = PyErr_NewException("pyCryoSatIO.error", NULL, NULL);
-    Py_INCREF(exampleError);
-    PyModule_AddObject(module, "error", exampleError);
+    arrayError = PyErr_NewException("pyCryoSatIO.error", NULL, NULL);
+    Py_INCREF(arrayError);
+    PyModule_AddObject(module, "error", arrayError);
 
     return module;
 }

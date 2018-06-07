@@ -3,7 +3,7 @@
 Overview
 =========
 
-Python interface for CryoSat data I/O library by Mullard Space Science Labotory - UCL, London  
+Python extension module for CryoSat data Level 2 I/O library by Mullard Space Science Labotory - UCL, London  
 
 To install:  
 `python setup.py build_ext --inplace`
