@@ -23,7 +23,7 @@ IO library version: 2.3
 
 #include "pyCryoSatIO.h"
 
-int buffer( char* inFile,
+int csarray( char* inFile,
                   BASELINE fBaseline )
 {
 
@@ -82,5 +82,5 @@ int buffer( char* inFile,
     }
 
     return EXIT_SUCCESS;
-} /* buffer */
+} /* csarray */
 

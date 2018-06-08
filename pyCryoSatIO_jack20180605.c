@@ -29,7 +29,7 @@ static PyObject *pyCryoSatIO_l2Iarray(PyObject *self, PyObject *args)
 
     /*-- Call the wrapped function --*/
     //int cn = main(narg=2, &fileName);
-    int cn = buffer(fileName, fbase);
+    int cn = csarray(fileName, fbase);
 
     /*-- raise an exception if necessary --*/
    if (cn < 0) {
