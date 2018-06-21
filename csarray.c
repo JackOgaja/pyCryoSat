@@ -2,78 +2,70 @@
 
 /*==============
 These functions use IO libraries developed by MSSL, UCL, London
-IO library author: Copyright CryoSat2 Software Team, 
+IO library author: (C) CryoSat2 Software Team, 
                    Mullard Space Science Lab, UCL, London
 IO library version: 2.3
 ================*/
 
-/*--author: Jack Ogaja, jack_ogaja@brown.edu--*/
+/*
+Jack Ogaja, 
+Brown University,
+jack_ogaja@brown.edu
+20180620
+See LICENSE.md for copyright information
+*/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <inttypes.h>
+/*-- 
+  These definitions are necessary for any NUMPY API call in this module 
+--*/
+#define NO_IMPORT_ARRAY
+#define PY_ARRAY_UNIQUE_SYMBOL pycryo_ARRAY_API
 
-#include "ptCSGetFileHandle.h"
-#include "vCSFreeFileHandle.h"
-#include "ptCSGetL2I.h"
-#include "jCSNumRecordsInDataset.h"
-#include "jIOFunctions.h"
-#include "CS_Defines.h"
+#include "csarray.h"
 
-#include "pyCryoSatIO.h"
+#define FP field_properties
 
-int csarray( char* inFile,
-                  BASELINE fBaseline )
+/*-- determine the sizes of different fields --*/
+uint8_t
+fieldSize( FIELDS field )
 {
+ switch(field)
+    {
+      case Field_Unknown:             return 0; 
+      case Interpolated_Ocean_Height: return OCEAN_HT_SIZE; 
+      case Freeboard:                 return FREEBOARD_SIZE; 
+      case Surface_Height_Anomaly:    return SHA_SIZE; 
+      default: 
+           assert(!"Field unknown!"); return 0;
+    }
+}
 
-    L2IData*  fDataL2 = NULL;
-    t_cs_filehandle fHandle = NULL;
+/*-- obtain fields properties --*/
+FP
+getProperties(int typenum, int typesize)
+{
+    FP fp;
+
+    fp.typenum = typenum;
+    fp.typesize = typesize;
+
+    return fp;
+} /* getProperties */
+
+/*-- determine the total number of records in each field --*/
+long int 
+howManyRecs(t_cs_filehandle fH, BASELINE fBaseline)
+{
     long int  n_records;
 
+    // MSSL I/O librarry
     iTestEndian(); // test endianess
 
-    fHandle = ptCSGetFileHandle( inFile, fBaseline );
-
-    if( fHandle != NULL )
+    if( fH != NULL )
     {
-        n_records = jCSNumRecordsInDataset( fHandle, 0 );
-
-        if( n_records == -1 )
-        {
-            printf( "Unable to get number of records in file.\n" );
-            return EXIT_FAILURE;
-        }
-
-        printf( "There are %ld records in the file %s\n",
-                n_records, inFile );
-
-        fDataL2 = ptCSGetL2I( fHandle,
-                            0,
-                            n_records,
-                            0,
-                            NULL );
-
-        if( fDataL2 != NULL )
-        {
-            printf( "L2 day [0] = %"PRId32"\n", fDataL2[ 0 ].j_Day );
-            printf( "L2 day [1] = %"PRId32"\n", fDataL2[ 1 ].j_Day );
-
-            printf( "\n\n ** DUMP[0] ** \n\n" );
-            vDump_L2IData( &fDataL2[ 0 ], NULL );
-            printf( "\n\n ** DUMP[1] ** \n\n" );
-            vDump_L2IData( &fDataL2[ 1 ], NULL );
-
-        }
-        else
-        {
-            printf( "Unable to read from file.\n" );
-            return EXIT_FAILURE;
-        }
-
-        free( fDataL2 );
-
-        vCSFreeFileHandle( fHandle );
+        // MSSL I/O librarry
+        n_records = jCSNumRecordsInDataset( fH, 0 );
+        return n_records;
     }
     else
     {
@@ -81,6 +73,33 @@ int csarray( char* inFile,
         return EXIT_FAILURE;
     }
 
-    return EXIT_SUCCESS;
+} /*howManyRecs*/
+
+/*-- obtain the field data --*/
+L2IData* 
+csarray( t_cs_filehandle fH, long int n_records ) 
+{
+
+    L2IData*  fDataL2 = NULL;
+    // MSSL I/O librarry
+    fDataL2 = ptCSGetL2I( fH, 0, n_records, 0, NULL );
+
+    if( fDataL2 != NULL )
+    {
+       /*
+       Debug
+       */
+       printf( "L2 day [0] = %"PRId32"\n", fDataL2[ 0 ].j_Day );
+       printf( "L2 day [1] = %"PRId32"\n", fDataL2[ 1 ].j_Day );
+
+       return fDataL2;
+
+    }
+    else
+    {
+        printf( "Unable to read from file.\n" );
+        return NULL;
+    }
+
 } /* csarray */
 

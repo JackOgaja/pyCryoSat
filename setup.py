@@ -1,22 +1,26 @@
 from distutils.core import setup, Extension
+import numpy as np
 
-rootDir = '/Users/jack/Arbeit/lynch_lab/data_processing/cryosat/codes/c_idl/cs_tools_2_3/lib'
-incDirs = [rootDir+'/mssl_shared',
-           rootDir+'/mssl_cryosat']
-libDirs = [rootDir+'/mssl_shared',
-           rootDir+'/mssl_cryosat']
+msslDir = '/Users/jack/Arbeit/lynch_lab/data_processing/cryosat/codes/c_idl/cs_tools_2_3/lib'
+incDirs = [msslDir+'/mssl_shared',
+           msslDir+'/mssl_cryosat']
+libDirs = [msslDir+'/mssl_shared',
+           msslDir+'/mssl_cryosat']
 
 cryoSat_ext = Extension(
-                         "pyCryoSatIO", 
-                         sources = ["pyCryoSatIO.c", rootDir+"/examples/cs_l2i_io_example.c"],
+                         "csarray", 
+                         sources = ["pycsarray.c", 
+                                     "csarray.c"],
                          include_dirs = incDirs,
                          libraries = ['mssl_cryosat','mssl_shared', 'm'],
-                         library_dirs = libDirs
+                         library_dirs = libDirs,
+                         extra_compile_args = ['-Wall']
                          )
 
 setup (
-       name = 'cryoSatIO',
+       name = 'cryoSatArray',
        version = '0.1.0',
-       ext_modules = [cryoSat_ext]
+       ext_modules = [cryoSat_ext],
+       include_dirs = [np.get_include()]
       )
 
