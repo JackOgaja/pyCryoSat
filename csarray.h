@@ -13,6 +13,7 @@ The module interface
 
 #include <numpy/arrayobject.h>
 
+// MSSL IO INTERFACES
 #include "ptCSGetFileHandle.h"
 #include "vCSFreeFileHandle.h"
 #include "ptCSGetL2I.h"
@@ -24,6 +25,7 @@ The module interface
 #define FREEBOARD_SIZE (4)
 #define SHA_SIZE (4)
 
+// New data types
 typedef struct _field_properties {
    /*
     some unique properties of the data fields 
@@ -58,10 +60,11 @@ typedef enum _FIELDS
    Surface_Height_Anomaly
 } FIELDS;
 
+// functions prototypes
 uint8_t fieldSize( FIELDS field ); 
 long int howManyRecs( t_cs_filehandle fH, BASELINE fBaseline );
 field_properties getProperties( int n, int s );
 L2IData* csarray( t_cs_filehandle fH, long int n_records );
 
-#endif // #ifndef _PYCRYO_H_
+#endif // #ifndef _CSARRAY_H_
 
