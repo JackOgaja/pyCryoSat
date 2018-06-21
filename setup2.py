@@ -1,7 +1,7 @@
 from distutils.core import setup, Extension
 import numpy as np
 
-msslDir = '<path_to_mssl_io_libraries>' #download and store somewhere
+msslDir = '/Users/jack/Arbeit/lynch_lab/data_processing/cryosat/codes/c_idl/cs_tools_2_3/lib'
 incDirs = [msslDir+'/mssl_shared',
            msslDir+'/mssl_cryosat']
 libDirs = [msslDir+'/mssl_shared',
