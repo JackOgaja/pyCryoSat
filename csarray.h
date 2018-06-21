@@ -13,7 +13,7 @@ The module interface
 
 #include <numpy/arrayobject.h>
 
-// MSSL I/O INTERFACES
+// MSSL I/O INTERFACE
 #include "ptCSGetFileHandle.h"
 #include "vCSFreeFileHandle.h"
 #include "ptCSGetL2I.h"
