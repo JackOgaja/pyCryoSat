@@ -1,7 +1,7 @@
 /*
 
  + Python c-extension module for reading CryoSat2 satellite data 
- + This extention uses IO libraries prepared by the team at
+ + This extention uses I/O libraries prepared by the team at
    Mullard Space Science Laboratory(MSSL), UCL London.
 
   Jack Ogaja, 

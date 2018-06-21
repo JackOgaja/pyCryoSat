@@ -1,10 +1,10 @@
 /*--functions for reading CryoSat2 data sets--*/
 
 /*==============
-These functions use IO libraries developed by MSSL, UCL, London
+These functions use I/O libraries developed by MSSL, UCL, London
 IO library author: (C) CryoSat2 Software Team, 
                    Mullard Space Science Lab, UCL, London
-IO library version: 2.3
+I/O library version: 2.3
 ================*/
 
 /*

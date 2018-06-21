@@ -3,7 +3,7 @@
 import numpy as np
 import csarray as csa 
 
-inFile = '/Users/jack/Arbeit/lynch_lab/data_processing/cryosat/codes/data/example/CS_OFFL_SIR_SARI2__20170131T223552_20170131T223747_C001.DBL'
+inFile = '<path_to_.DBL_file>' # locate the input file
 
 print('The input file is : {}'.format(inFile))
 

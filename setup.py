@@ -1,7 +1,8 @@
 from distutils.core import setup, Extension
 import numpy as np
 
-msslDir = '<path_to_mssl_io_libraries>' #download and store somewhere
+msslDir = '<path_to_mssl_io_libraries>' # download from European Space Agency's
+                                        # website and store in this path
 incDirs = [msslDir+'/mssl_shared',
            msslDir+'/mssl_cryosat']
 libDirs = [msslDir+'/mssl_shared',
