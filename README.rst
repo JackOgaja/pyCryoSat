@@ -23,7 +23,8 @@ To install:
 License:
 ========
    :The I/O library:  
-   mssl-cryosat I/O software is developed by software team at  
+   Copyright MSSL, UCL
+    mssl-cryosat I/O software is developed by software team at  
     Mullard Space Science Laboratory - UCL, London  
     For copyright and licensing information for the library, 
     visit: http://cryosat.mssl.ucl.ac.uk
