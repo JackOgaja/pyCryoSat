@@ -22,15 +22,15 @@ To install:
 
 License:
 ========
+.. module:: 
+   :The I/O library:  
+    mssl-cryosat I/O software is developed by software team at 
+    Mullard Space Science Laboratory - UCL, London  
+    For copyright and licensing information for the library, 
+    visit: http://cryosat.mssl.ucl.ac.uk
 
-The I/O library    
-mssl-cryosat I/O software is developed by software team at 
-Mullard Space Science Laboratory - UCL, London
-For copyright and licensing information for the library, 
-visit: http://cryosat.mssl.ucl.ac.uk
-
-The python c-extension   
-MIT License::
-For detailed copyright and licensing information, please refer to the
-license file `LICENSE.md` in the top level directory.
+    :The python c-extension:   
+     MIT License  
+     For detailed copyright and licensing information, please refer to the
+     license file `LICENSE.md` in the top level directory.
 
