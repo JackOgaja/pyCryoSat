@@ -1,7 +1,7 @@
 /*--functions for reading ESA's CryoSat2 data sets--*/
 
 /*==============
-These functions use I/O libraries developed by MSSL, UCL, London
+These functions use I/O libraries developed by UCL/MSSL, London
 IO library author: (C) CryoSat2 Software Team, 
                    Mullard Space Science Lab, UCL, London
 I/O library version: 2.3
