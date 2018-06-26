@@ -1,4 +1,4 @@
-/*--functions for reading CryoSat2 data sets--*/
+/*--functions for reading ESA's CryoSat2 data sets--*/
 
 /*==============
 These functions use I/O libraries developed by MSSL, UCL, London
