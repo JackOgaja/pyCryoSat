@@ -11,7 +11,7 @@ Mullard Space Science Laboratory, UCL, London
 
 Before install:
 
- - Download and install mssl-cryosat I/O library
+*Download and install mssl-cryosat I/O library
 from `European Space Agency's website <https://earth.esa.int/web/guest/software-tools/-/article/software-routines-7114>`_
 
 To install:
