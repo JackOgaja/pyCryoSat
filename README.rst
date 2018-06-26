@@ -26,11 +26,11 @@ License:
    Copyright MSSL, UCL
     mssl-cryosat I/O software is developed by software team at  
     Mullard Space Science Laboratory - UCL, London  
-    For copyright and licensing information for the library, 
+|    For copyright and licensing information for the library, 
     visit: http://cryosat.mssl.ucl.ac.uk
 
     :The python c-extension:  
     MIT License   
-     For detailed copyright and licensing information, please refer to the
+     For detailed copyright and licensing information, refer to the
      license file `LICENSE.md` in the top level directory.
 
