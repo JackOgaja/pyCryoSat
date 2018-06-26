@@ -6,14 +6,16 @@
 The module interface
 */
 
+// SYSTEM INTERFACE
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <inttypes.h>
 
+// NUMPY INTERFACE
 #include <numpy/arrayobject.h>
 
-// MSSL I/O INTERFACE
+// MSSL I/O LIB INTERFACE
 #include "ptCSGetFileHandle.h"
 #include "vCSFreeFileHandle.h"
 #include "ptCSGetL2I.h"

@@ -29,8 +29,8 @@ License:
     For copyright and licensing information, 
     visit: http://cryosat.mssl.ucl.ac.uk
 
-    :The python c-extension:  
-    MIT License   
-     For detailed copyright and licensing information, refer to the
-     license file `LICENSE.md` in the top level directory.
+   :The python c-extension:  
+   MIT License   
+    For detailed copyright and licensing information, refer to the
+    license file `LICENSE.md` in the top level directory.
 
