@@ -23,6 +23,7 @@ The module interface
 #include "jIOFunctions.h"
 #include "CS_Defines.h"
 
+// field sizes in bytes
 #define OCEAN_HT_SIZE (4)
 #define FREEBOARD_SIZE (4)
 #define SHA_SIZE (4)
@@ -45,9 +46,9 @@ typedef struct _arrayStruct {
      construct the field arrays 
     */
     void* arrayData;
-    /* the field array data */
+    /* field array data */
     field_properties fp;
-    /* the fields properties */
+    /* fields properties */
 } arrayStruct;
 
 /*
@@ -55,7 +56,7 @@ Select different data fields
 */
 typedef enum _FIELDS
 {
-   /*-- add as many fields as necessary --*/
+   /*-- add fields --*/
    Field_Unknown,
    Interpolated_Ocean_Height,
    Freeboard,

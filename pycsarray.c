@@ -1,6 +1,6 @@
 /*
 
- + Python c-extension module for reading European Space Agency's 
+ + Python C-extension module for reading European Space Agency's 
    CryoSat2 satellite data 
  + This extention uses I/O libraries prepared by the team at
    Mullard Space Science Laboratory(MSSL), UCL London.
@@ -28,7 +28,7 @@ static PyArrayObject* array_CRYOSAT2(npy_intp* dims,
 
 /*-- python doc-strings --*/
 static char module_docstring[] =
-    "A python c-extension for CryoSat2 Level 2i data IO";
+    "A python c-extension for CryoSat2 Level 2i data I/O";
 static char l2Iarray_docstring[] =
     "function to read CryoSat2 L2i data into numpy arrays";
 
@@ -62,7 +62,7 @@ PyMODINIT_FUNC PyInit_csarray(void)
     Py_INCREF(cryosatArrayError);
     PyModule_AddObject(module, "error", cryosatArrayError);
 
-    /* Load `numpy` functionality. */
+    /* Load numpy functionality. */
     import_array();
 
     return module;

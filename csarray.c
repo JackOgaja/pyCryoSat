@@ -2,7 +2,7 @@
 
 /*==============
 These functions use I/O libraries developed by UCL/MSSL, London
-IO library author: (C) CryoSat2 Software Team, 
+I/O library author: (C) CryoSat2 Software Team, 
                    Mullard Space Science Lab, UCL, London
 I/O library version: 2.3
 ================*/
@@ -16,7 +16,7 @@ See LICENSE.md for copyright information
 */
 
 /*-- 
-  These definitions are necessary for any NUMPY API call in this module 
+  Make NUMPY API calls available in this module 
 --*/
 #define NO_IMPORT_ARRAY
 #define PY_ARRAY_UNIQUE_SYMBOL pycryo_ARRAY_API
