@@ -9,7 +9,7 @@
   Brown University,
   jack_ogaja@brown.edu
   20180620
-  See LICENSE.md for copyright information
+  See LICENSE.md for license and copyright notice
 
 */
 

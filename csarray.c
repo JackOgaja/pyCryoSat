@@ -12,7 +12,7 @@ Jack Ogaja,
 Brown University,
 jack_ogaja@brown.edu
 20180620
-See LICENSE.md for copyright information
+See LICENSE.md for license and copyright notice
 */
 
 /*-- 
@@ -91,6 +91,10 @@ csarray( t_cs_filehandle fH, long int n_records )
        */
        printf( "L2 day [0] = %"PRId32"\n", fDataL2[ 0 ].j_Day );
        printf( "L2 day [1] = %"PRId32"\n", fDataL2[ 1 ].j_Day );
+       printf( "S1 = %d\n", S1 );
+       printf( "S2 = %d\n", S2 );
+       printf( "SIZE_LIST_1 = %d\n", SIZE_LIST_1 );
+       printf( "SIZE_LIST_2 = %d\n", SIZE_LIST_2 );
 
        return fDataL2;
 
