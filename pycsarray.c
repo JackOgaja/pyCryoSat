@@ -9,7 +9,7 @@
   Brown University,
   jack_ogaja@brown.edu
   20180620
-  See LICENSE.md for license and copyright notice
+  See LICENSE.md for copyright notice
 
 */
 
@@ -23,8 +23,11 @@
 /*-- local functions prototypes --*/
 static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args);
 static PyObject *cryosatArrayError; // unique exception object 
-static PyArrayObject* array_CRYOSAT2(npy_intp* dims, 
+static PyArrayObject* array_CRYOSAT_VEC(npy_intp* dims, 
                           field_properties f_p, void* arrayStruct); 
+static PyArrayObject* array_CRYOSAT_MAT(int nd, npy_intp* dims, 
+                          field_properties f_p, void* arrayStruct); 
+static int32_t** pyarray_to_int32(PyArrayObject* pyAObj);
 
 /*-- python doc-strings --*/
 static char module_docstring[] =
@@ -68,17 +71,14 @@ PyMODINIT_FUNC PyInit_csarray(void)
     return module;
 }
 
-/*-- create a numpy array from satellite data fields--*/
+/*-- create a numpy array from a vector--*/
 static PyArrayObject*
-array_CRYOSAT2(npy_intp* dims, field_properties f_p,
+array_CRYOSAT_VEC(npy_intp* dims, field_properties f_p,
                                   void* arrayStruct)
 {
       f_p.strides[0] = sizeof(L2IData);
       PyArray_Descr *descr = PyArray_DescrFromType(f_p.typenum);
-      if (descr == NULL)
-      {
-          return NULL;
-      }
+      if (descr == NULL) return NULL; 
 
       if (PyDataType_ISUNSIZED(descr))
       {
@@ -100,7 +100,51 @@ array_CRYOSAT2(npy_intp* dims, field_properties f_p,
                                       NPY_ARRAY_CARRAY, NULL);
 
       return arrayRet;
-} /* array_CRYOSAT2 */
+} /* array_CRYOSAT_VEC */
+
+/*-- create a numpy array from a matrix--*/
+static PyArrayObject*
+array_CRYOSAT_MAT(int nd, npy_intp* dims, field_properties f_p,
+                                  void* arrayStruct)
+{
+      int itemsize = 0;
+
+      f_p.strides[0] = sizeof(L2IData);
+      PyArray_Descr *descr = PyArray_DescrFromType(f_p.typenum);
+      if (descr == NULL) return NULL; 
+
+      if (PyDataType_ISUNSIZED(descr))
+      {
+          if (itemsize < 1)
+          {
+              PyErr_SetString(PyExc_ValueError,
+                              "data type must provide an itemsize");
+              Py_DECREF(descr);
+              return NULL;
+          }
+          PyArray_DESCR_REPLACE(descr);
+          descr->elsize = itemsize;
+      }
+
+      PyArrayObject* arrayRet = (PyArrayObject *)
+                 PyArray_NewFromDescr(&PyArray_Type, descr,
+                                      nd, dims,
+                                      NULL, NULL, 0, NULL); 
+
+//       memcpy(PyArray_DATA(arrayRet), arrayStruct, 3*sizeof(arrayStruct[0])*2575);
+       memcpy(PyArray_DATA(arrayRet), arrayStruct, 3*sizeof(int32_t)*2575);
+
+      return arrayRet;
+} /* array_CRYOSAT_MAT */
+
+static int32_t**
+pyarray_to_int32(PyArrayObject* pyAObj)
+{
+    int32_t** obj;
+
+    obj = (int32_t **) PyArray_DATA(pyAObj);
+    return obj;
+}
 
 //die Hauptfunktion
 static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args)
@@ -156,13 +200,42 @@ static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args)
            PyErr_SetString(PyExc_ValueError,
                            "Unknown field selected as 0!");
            return NULL;
+      case Satellite_velocity:
+           {
+//             int32_t *arrayStruct = &(&arrayPtr[0])->aj_Sat_velocity[2];
+//             int8_t itemsize = fieldSize(field);
+//             int typeNum = NPY_INT;
+//             fp = getProperties(typeNum, itemsize);
+//             arrayObj = array_CRYOSAT_VEC(dims, fp, arrayStruct); 
+//             dims[0] = 3;
+             dims[0] = num_recs;
+//             dims[1] = num_recs;
+             dims[1] = 3;
+             int j, k;
+             int32_t *arrayStruct = &(&arrayPtr[0])->aj_Sat_velocity[0];
+             int8_t itemsize = fieldSize(field);
+             int typeNum = NPY_INT;
+             fp = getProperties(typeNum, itemsize);
+             arrayObj = array_CRYOSAT_MAT(2, dims, fp, arrayStruct); 
+//             PyArrayObject* ObjTmp = array_CRYOSAT_MAT(3, dims, fp, arrayStruct); 
+//             arrayObj = pyarray_to_int32(ObjTmp);
+//++             int32_t** mat = pyarray_to_int32(arrayObj);
+//++
+//++             for (j = 0; j < num_recs; ++j) {
+//++                 for (k = 0; k < 3; ++k) {
+//                      mat[j][k] = arrayStruct[0] + j*sizeof(int32_t) + k*sizeof(int32_t);
+//++                      mat[j][k] = &arrayStruct[0] + j*sizeof(L2IData) + k*sizeof(int32_t);
+//++                      }
+//++             }
+             break;
+           }
       case Interpolated_Ocean_Height:
            {
              int32_t *arrayStruct = &(&arrayPtr[0])->j_Ocean_ht;
              int8_t itemsize = fieldSize(field);
              int typeNum = NPY_INT;
              fp = getProperties(typeNum, itemsize);
-             arrayObj = array_CRYOSAT2(dims, fp, arrayStruct); 
+             arrayObj = array_CRYOSAT_VEC(dims, fp, arrayStruct); 
              break;
            }
       case Freeboard:
@@ -171,7 +244,7 @@ static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args)
              int8_t itemsize = fieldSize(field);
              int typeNum = NPY_INT;
              fp = getProperties(typeNum, itemsize);
-             arrayObj = array_CRYOSAT2(dims, fp, arrayStruct); 
+             arrayObj = array_CRYOSAT_VEC(dims, fp, arrayStruct); 
              break;
            }
       case Surface_Height_Anomaly:
@@ -180,7 +253,7 @@ static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args)
              int8_t itemsize = fieldSize(field);
              int typeNum = NPY_INT;
              fp = getProperties(typeNum, itemsize);
-             arrayObj = array_CRYOSAT2(dims, fp, arrayStruct); 
+             arrayObj = array_CRYOSAT_VEC(dims, fp, arrayStruct); 
              break;
            }
       default:

@@ -12,7 +12,7 @@ Jack Ogaja,
 Brown University,
 jack_ogaja@brown.edu
 20180620
-See LICENSE.md for license and copyright notice
+See LICENSE.md for copyright notice
 */
 
 /*-- 
@@ -32,6 +32,7 @@ fieldSize( FIELDS field )
  switch(field)
     {
       case Field_Unknown:             return 0; 
+      case Satellite_velocity:        return SAT_VELOCITY_SIZE; 
       case Interpolated_Ocean_Height: return OCEAN_HT_SIZE; 
       case Freeboard:                 return FREEBOARD_SIZE; 
       case Surface_Height_Anomaly:    return SHA_SIZE; 
