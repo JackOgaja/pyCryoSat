@@ -105,7 +105,7 @@ array_CRYOSAT2(npy_intp* dims, field_properties f_p,
 //die Hauptfunktion
 static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args)
 {
-    int narg, fieldNum;
+    int base, fieldNum;
     npy_intp dims[NPY_MAXDIMS]; //shape of array
     long int num_recs; //total number of records in a file
     const char *fname;
@@ -114,11 +114,11 @@ static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args)
     field_properties fp;
 
     /*-- Parse the input tuple --*/
-    if (!PyArg_ParseTuple(args, "sii", &fname, &narg, &fieldNum))
+    if (!PyArg_ParseTuple(args, "sii", &fname, &base, &fieldNum))
         return NULL;
 
     char *fileName = (char *)fname;
-    BASELINE fbase = (BASELINE) narg;
+    BASELINE fbase = (BASELINE) base;
     FIELDS field = (FIELDS) fieldNum;
 
     /*-- get the file pointer --*/
@@ -153,7 +153,9 @@ static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args)
     switch(field)
     {
       case Field_Unknown:
-           assert(!"Field unknown!"); return NULL;
+           PyErr_SetString(PyExc_ValueError,
+                           "Unknown field selected as 0!");
+           return NULL;
       case Interpolated_Ocean_Height:
            {
              int32_t *arrayStruct = &(&arrayPtr[0])->j_Ocean_ht;
@@ -182,7 +184,10 @@ static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args)
              break;
            }
       default:
-           assert(!"Field unknown!"); return NULL;
+           PyErr_SetString(PyExc_ValueError,
+                           "Data field unknown! \n \
+                            Select between 1 and 133");
+           return NULL;
     }
 
     return PyArray_Return(arrayObj);
