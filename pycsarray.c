@@ -23,11 +23,8 @@
 /*-- local functions prototypes --*/
 static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args);
 static PyObject *cryosatArrayError; // unique exception object 
-static PyArrayObject* array_CRYOSAT_VEC(npy_intp* dims, 
+static PyArrayObject* array_CRYOSAT(int nd, npy_intp* dims, 
                           field_properties f_p, void* arrayStruct); 
-static PyArrayObject* array_CRYOSAT_MAT(int nd, npy_intp* dims, 
-                          field_properties f_p, void* arrayStruct); 
-static int32_t** pyarray_to_int32(PyArrayObject* pyAObj);
 
 /*-- python doc-strings --*/
 static char module_docstring[] =
@@ -71,12 +68,11 @@ PyMODINIT_FUNC PyInit_csarray(void)
     return module;
 }
 
-/*-- create a numpy array from a vector--*/
+/*-- create a numpy array from a vector or matrix--*/
 static PyArrayObject*
-array_CRYOSAT_VEC(npy_intp* dims, field_properties f_p,
+array_CRYOSAT(int nd, npy_intp* dims, field_properties f_p,
                                   void* arrayStruct)
 {
-      f_p.strides[0] = sizeof(L2IData);
       PyArray_Descr *descr = PyArray_DescrFromType(f_p.typenum);
       if (descr == NULL) return NULL; 
 
@@ -95,63 +91,19 @@ array_CRYOSAT_VEC(npy_intp* dims, field_properties f_p,
 
       PyArrayObject* arrayRet = (PyArrayObject *)
                  PyArray_NewFromDescr(&PyArray_Type, descr,
-                                      1, dims,
+                                      nd, dims,
                                       f_p.strides, arrayStruct,
                                       NPY_ARRAY_CARRAY, NULL);
 
       return arrayRet;
-} /* array_CRYOSAT_VEC */
-
-/*-- create a numpy array from a matrix--*/
-static PyArrayObject*
-array_CRYOSAT_MAT(int nd, npy_intp* dims, field_properties f_p,
-                                  void* arrayStruct)
-{
-      int itemsize = 0;
-
-      f_p.strides[0] = sizeof(L2IData);
-      PyArray_Descr *descr = PyArray_DescrFromType(f_p.typenum);
-      if (descr == NULL) return NULL; 
-
-      if (PyDataType_ISUNSIZED(descr))
-      {
-          if (itemsize < 1)
-          {
-              PyErr_SetString(PyExc_ValueError,
-                              "data type must provide an itemsize");
-              Py_DECREF(descr);
-              return NULL;
-          }
-          PyArray_DESCR_REPLACE(descr);
-          descr->elsize = itemsize;
-      }
-
-      PyArrayObject* arrayRet = (PyArrayObject *)
-                 PyArray_NewFromDescr(&PyArray_Type, descr,
-                                      nd, dims,
-                                      NULL, NULL, 0, NULL); 
-
-//       memcpy(PyArray_DATA(arrayRet), arrayStruct, 3*sizeof(arrayStruct[0])*2575);
-//++       memcpy((int32_t *)PyArray_DATA(arrayRet), arrayStruct, 3*sizeof(int32_t)*2575);
-
-      return arrayRet;
-} /* array_CRYOSAT_MAT */
-
-static int32_t**
-pyarray_to_int32(PyArrayObject* pyAObj)
-{
-//    int32_t** obj;
-
-//    obj = (int32_t **) PyArray_DATA(pyAObj);
-    return (int32_t **) PyArray_DATA(pyAObj);
-//    return obj;
-}
+} /* array_CRYOSAT */
 
 //die Hauptfunktion
 static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args)
 {
     int base, fieldNum;
     npy_intp dims[NPY_MAXDIMS]; //shape of array
+    npy_intp strides[NPY_MAXDIMS]; 
     long int num_recs; //total number of records in a file
     const char *fname;
     PyArrayObject  *arrayObj = NULL;
@@ -186,7 +138,6 @@ static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args)
     printf( "There are %ld records in the input file %s\n",
            num_recs, fileName );
 
-    dims[0] = num_recs; // number of elements in the dimension
     L2IData* arrayPtr = csarray(fHandle, num_recs);
     // MSSL I/O librarry
     vCSFreeFileHandle( fHandle );
@@ -207,84 +158,48 @@ static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args)
            return NULL;
       case Satellite_velocity:
            {
-//             int32_t *arrayStruct = &(&arrayPtr[0])->aj_Sat_velocity[2];
-//             int8_t itemsize = fieldSize(field);
-//             int typeNum = NPY_INT;
-//             fp = getProperties(typeNum, itemsize);
-//             arrayObj = array_CRYOSAT_VEC(dims, fp, arrayStruct); 
              dims[0] = 3;
-//             dims[0] = num_recs;
              dims[1] = num_recs;
-//             dims[1] = 3;
-             int j, k;
-//             int32_t *arrayStruct = &(&arrayPtr[0])->aj_Sat_velocity[0];
+             strides[0] = sizeof(int32_t);
+             strides[1] = sizeof(L2IData);
              int32_t *arrayStruct = &(&arrayPtr[0])->aj_Sat_velocity;
-//             L2IData *arrayStruct = &(&arrayPtr[0])->aj_Sat_velocity;
              int8_t itemsize = fieldSize(field);
              int typeNum = NPY_INT;
-             fp = getProperties(typeNum, itemsize);
-             arrayObj = array_CRYOSAT_MAT(2, dims, fp, arrayStruct); 
-//             PyArrayObject* ObjTmp = array_CRYOSAT_MAT(3, dims, fp, arrayStruct); 
-//             arrayObj = pyarray_to_int32(ObjTmp);
-
-             matcs = (int32_t **)malloc(sizeof(int32_t *)*3);
-//+             matcs = (int32_t **)malloc((size_t) (sizeof(int32_t *)*3));
-//             matcs = (int32_t **)malloc(sizeof(L2IData *)*3);
-//             matcs = (L2IData **)malloc(sizeof(L2IData *)*3);
-             for(j=0; j < 3; j++) {
-//+                matcs[j] = (int32_t *)malloc(sizeof(int32_t)*num_recs);
-//+                matcs[j] = (int32_t *)malloc(sizeof(L2IData)*num_recs);
-//                matcs[j] = (L2IData *)malloc(sizeof(L2IData)*num_recs);
-             }
-             int32_t *mat = (int32_t *) PyArray_DATA(arrayObj);
-//             int32_t **matcs = (int32_t **) PyArray_DATA(arrayObj);
-//             L2IData *mat = (L2IData *) PyArray_DATA(arrayObj);
-             for (j = 0; j < 3; ++j) {
-                 matcs[j] = mat + j*num_recs;
-             }
-//+             int32_t **mat = (int32_t **) PyArray_DATA(arrayObj);
-//++             int32_t **mat = pyarray_to_int32(arrayObj);
-
-//             for (j = 0; j < 3*num_recs; ++j) {
-             for (j = 0; j < 3; ++j) {
-                 for (k = 0; k < num_recs; ++k) {
-//             for (j = 0; j < 3; j++) {
-//                 for (k = 0; k < num_recs; k++) {
-//                      mat[j][k] = arrayStruct + k*sizeof(L2IData) + j*sizeof(int32_t);
-                      matcs[j][k] = arrayStruct + k*sizeof(L2IData) + j*sizeof(int32_t);
-//                      mat[j][k] = arrayStruct + k*sizeof(L2IData) + j;
-//                      mat[j][k] = arrayStruct[0] + j*sizeof(int32_t) + k*sizeof(int32_t);
-//                      mat[j] = arrayStruct + k*sizeof(L2IData);
-                     }
-             }
-             free((int32_t **) matcs);
+             fp = getProperties(2, typeNum, itemsize, strides);
+             arrayObj = array_CRYOSAT(2, dims, fp, arrayStruct); 
              break;
            }
       case Interpolated_Ocean_Height:
            {
+             dims[0] = num_recs;
+             strides[0] = sizeof(L2IData);
              int32_t *arrayStruct = &(&arrayPtr[0])->j_Ocean_ht;
              int8_t itemsize = fieldSize(field);
              int typeNum = NPY_INT;
-             fp = getProperties(typeNum, itemsize);
-             arrayObj = array_CRYOSAT_VEC(dims, fp, arrayStruct); 
+             fp = getProperties(1, typeNum, itemsize, strides);
+             arrayObj = array_CRYOSAT(1, dims, fp, arrayStruct); 
              break;
            }
       case Freeboard:
            {
+             dims[0] = num_recs;
+             strides[0] = sizeof(L2IData);
              int32_t *arrayStruct = &(&arrayPtr[0])->j_Freeboard;
              int8_t itemsize = fieldSize(field);
              int typeNum = NPY_INT;
-             fp = getProperties(typeNum, itemsize);
-             arrayObj = array_CRYOSAT_VEC(dims, fp, arrayStruct); 
+             fp = getProperties(1, typeNum, itemsize, strides);
+             arrayObj = array_CRYOSAT(1, dims, fp, arrayStruct); 
              break;
            }
       case Surface_Height_Anomaly:
            {
+             dims[0] = num_recs;
+             strides[0] = sizeof(L2IData);
              int32_t *arrayStruct = &(&arrayPtr[0])->j_SHA;
              int8_t itemsize = fieldSize(field);
              int typeNum = NPY_INT;
-             fp = getProperties(typeNum, itemsize);
-             arrayObj = array_CRYOSAT_VEC(dims, fp, arrayStruct); 
+             fp = getProperties(1, typeNum, itemsize, strides);
+             arrayObj = array_CRYOSAT(1, dims, fp, arrayStruct); 
              break;
            }
       default:

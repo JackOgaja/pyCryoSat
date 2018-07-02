@@ -43,12 +43,16 @@ fieldSize( FIELDS field )
 
 /*-- obtain fields properties --*/
 FP
-getProperties(int typenum, int typesize)
+getProperties(int nd, int typenum, int typesize, npy_intp* ss)
 {
+    int j;
     FP fp;
 
     fp.typenum = typenum;
     fp.typesize = typesize;
+    for (j = 0; j < nd; ++j) {
+        fp.strides[j] = ss[j];
+    }
 
     return fp;
 } /* getProperties */
