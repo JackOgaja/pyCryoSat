@@ -137,7 +137,7 @@ END SOME TEST
 #define FREEB_STATUS_SIZE (4)
 #define N_AVG_SIZE (4)
 #define WIND_SPEED_SIZE (4)
-#define SPARES1_SIZE (4*12)
+//#define SPARES1_SIZE (4*12)
 /*-- Auxiliary measurement group --*/
 #define ICE_CONC_SIZE (4)
 #define SNOW_DEPTH_SIZE (4)
@@ -165,7 +165,7 @@ END SOME TEST
 #define ODLE_MODE_SIZE (4)
 #define DEM_ELEV_SIZE (4)
 #define DEM_ID_SIZE (4)
-#define SPARES2_SIZE (4*16)
+//#define SPARES2_SIZE (4*16)
 /*-- External Corrections group --*/
 #define DRY_C_SIZE (4)
 #define WET_C_SIZE (4)
@@ -182,7 +182,7 @@ END SOME TEST
 #define CORR_STATUS_SIZE (4)
 #define CORR_ERROR_SIZE (4)
 #define SSB_SIZE (4)
-#define SPARES3_SIZE (4*8)
+//#define SPARES3_SIZE (4*8)
 /*-- Internal Corrections group --*/
 #define DOPP_RC_SIZE (4)
 #define TR_INST_RC_SIZE (4)
@@ -193,7 +193,7 @@ END SOME TEST
 #define EXT_PHASE_C_SIZE (4)
 #define NOISE_PWR_SIZE (4)
 #define PHASE_SLOPE_C_SIZE (4)
-#define SPARES4 (4*8)
+//#define SPARES4 (4*8)
 
 // New data types
 typedef struct _field_properties {
