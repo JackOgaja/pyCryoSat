@@ -1,7 +1,7 @@
 from distutils.core import setup, Extension
 import numpy as np
 
-msslDir = '<path_to_mssl_io_libraries>' # download from European Space Agency's website
+msslDir = '<path_to_mssl_io_libraries>' # download the I/O lib from European Space Agency's website
                                         # https://earth.esa.int/web/guest/software-tools/-/article/software-routines-7114
                                         # install and store in this path
 incDirs = [msslDir+'/mssl_shared',
