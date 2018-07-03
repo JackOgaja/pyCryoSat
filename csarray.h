@@ -23,37 +23,6 @@ The module interface
 #include "jIOFunctions.h"
 #include "CS_Defines.h"
 
-/*
-SOME TEST
-*/
-#define CONCAT(A,B)         A ## B
-#define EXPAND_CONCAT(A,B)  CONCAT(A, B)
-
-#define ARGN(N, LIST)       EXPAND_CONCAT(ARG_, N) LIST
-#define ARG_0(A0, ...)      A0
-#define ARG_1(A0, A1, ...)  A1
-#define ARG_2(A0, A1, A2, ...)      A2
-#define ARG_3(A0, A1, A2, A3, ...)  A3
-#define ARG_4(A0, A1, A2, A3, A4, ...)      A4
-#define ARG_5(A0, A1, A2, A3, A4, A5, ...)  A5
-#define ARG_6(A0, A1, A2, A3, A4, A5, A6, ...)      A6
-#define ARG_7(A0, A1, A2, A3, A4, A5, A6, A7, ...)  A7
-#define ARG_8(A0, A1, A2, A3, A4, A5, A6, A7, A8, ...)      A8
-#define ARG_9(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, ...)  A9
-#define ARG_10(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...)    A10
-
-/* define array of sizes */
-
-#define SIZE_LIST_1 ( 2,  4,  8,  12,  16,   100)
-#define SIZE_LIST_2 (11, 65, 222, 112, 444, 1000)
-
-#define S1 ARGN(MODE, SIZE_LIST_1)
-#define S2 ARGN(MODE, SIZE_LIST_2)
-
-#define MODE 2 
-/*
-END SOME TEST
-*/
 // field sizes in bytes
 /*-- time and orbit group --*/
 #define DAY_SIZE (4)
