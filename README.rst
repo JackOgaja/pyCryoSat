@@ -18,7 +18,7 @@ from `European Space Agency's website <https://earth.esa.int/web/guest/software-
 ::
     ~$ git clone https://github.com/JackOgaja/PyCryoSat.git
     ~$ cd PyCryoSat
-    ~$ python setup.py build_ext --inplace
+    ~$ python setup.py build_ext -b lib
 
 To test:
 ::

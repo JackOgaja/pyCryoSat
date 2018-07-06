@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
-import csarray as csa 
+import lib.csarray as csa 
 
 inFile = '<path_to_.DBL_file>' # locate the input file
 
