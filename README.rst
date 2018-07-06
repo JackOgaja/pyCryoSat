@@ -22,9 +22,7 @@ Mullard Space Science Laboratory, UCL, London
   |    |- csarray.h  
   |- lib  
   |    |- __init__.py 
-  |- pycryosat  
-  |    |- __init__.py 
-  |    |- pycryosat.py  
+  |- pycryosat.py  
   |- example.py  
 
 *Before installation:*
