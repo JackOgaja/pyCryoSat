@@ -338,7 +338,7 @@ typedef enum _FIELDS
    //Spares4 //Spares4[ 8 ] 
 } FIELDS;
 
-// functions prototypes
+// function prototypes
 uint8_t fieldSize( FIELDS field ); 
 long int howManyRecs( t_cs_filehandle fH, BASELINE fBaseline );
 field_properties getProperties( int nd, int n, int s, npy_intp* ss );
