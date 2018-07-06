@@ -27,7 +27,7 @@ Mullard Space Science Laboratory, UCL, London
   |    |- pycryosat.py  
   |- example.py  
 
-*Before install:*
+*Before installation:*
 
 -Download and install mssl-cryosat I/O library
 from `European Space Agency's website <https://earth.esa.int/web/guest/software-tools/-/article/software-routines-7114>`_
