@@ -11,34 +11,21 @@ Mullard Space Science Laboratory, UCL, London
 
 *The program layout:*
 ::
-  .../hos-tool/  
+  .../pyCryoSat/  
   |- README  
   |- LICENSE  
-  |- CODEOWNERS  
-  |- Makefie  
-  |- docs  
-  |    |- HOSTool.rst 
-  |    |- TOC.rst
-  |    |- readme.rst  
-  |    |- Makefile  
-  |- bin  
-  |- include  
-  |    |- cpp_defs.h  
-  |    |- hos.h  
+  |- setup.py  
   |- src  
-  |    |- hos.c  
-  |    |- experiments.c  
-  |    |- ioUtilities.c  
-  |    |- numericalUtilities.c  
-  |- experiments  
-  |    |- conf  
-  |         |- wave.conf  
-  |         |- logs  
-  |              |- run.log  
-  |         |- output  
-  |              |- run.out  
-  |    |- runExperiments.sh  
-
+  |    |- csarray.c 
+  |    |- pycsarray.c 
+  |- include  
+  |    |- csarray.h  
+  |- lib  
+  |    |- __init__.py 
+  |- pycryosat  
+  |    |- __init__.py 
+  |    |- pycryosat.py  
+  |- example.py  
 
 *Before install:*
 
