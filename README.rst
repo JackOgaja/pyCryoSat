@@ -9,6 +9,37 @@ https://earth.esa.int/web/eoportal/satellite-missions/c-missions/cryosat-2.
 This extension uses an I/O library prepared by the software team at
 Mullard Space Science Laboratory, UCL, London  
 
+*The program layout:*
+::
+  .../hos-tool/  
+  |- README  
+  |- LICENSE  
+  |- CODEOWNERS  
+  |- Makefie  
+  |- docs  
+  |    |- HOSTool.rst 
+  |    |- TOC.rst
+  |    |- readme.rst  
+  |    |- Makefile  
+  |- bin  
+  |- include  
+  |    |- cpp_defs.h  
+  |    |- hos.h  
+  |- src  
+  |    |- hos.c  
+  |    |- experiments.c  
+  |    |- ioUtilities.c  
+  |    |- numericalUtilities.c  
+  |- experiments  
+  |    |- conf  
+  |         |- wave.conf  
+  |         |- logs  
+  |              |- run.log  
+  |         |- output  
+  |              |- run.out  
+  |    |- runExperiments.sh  
+
+
 *Before install:*
 
 -Download and install mssl-cryosat I/O library
