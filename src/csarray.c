@@ -224,8 +224,8 @@ csarray( t_cs_filehandle fH, long int n_records )
        /*
        Debug
        */
-       printf( "L2 day [0] = %"PRId32"\n", fDataL2[ 0 ].j_Day );
-       printf( "L2 day [1] = %"PRId32"\n", fDataL2[ 1 ].j_Day );
+       //printf( "L2 day [0] = %"PRId32"\n", fDataL2[ 0 ].j_Day );
+       //printf( "L2 day [1] = %"PRId32"\n", fDataL2[ 1 ].j_Day );
 
        return fDataL2;
 

@@ -131,8 +131,8 @@ static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args)
       printf( "The number of records in the file cannot be determined.\n" );
       return NULL;
     }
-    printf( "There are %ld records in the input file %s\n",
-           num_recs, fileName );
+    //printf( "There are %ld records in the input file %s\n",
+    //       num_recs, fileName );
 
     L2IData* arrayPtr = csarray(fHandle, num_recs);
     // MSSL I/O librarry
@@ -1593,7 +1593,7 @@ static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args)
       default:
            PyErr_SetString(PyExc_ValueError,
                            "Data field unknown! \n \
-                            Select between 1 and 133");
+                            Select between 1 and 131");
            return NULL;
     }
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
-import lib.csarray as csa 
+import pycryosat import read_data as rd 
 
 inFile = '<path_to_.DBL_file>' # locate the input file
 
