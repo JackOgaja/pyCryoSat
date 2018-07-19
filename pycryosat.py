@@ -62,8 +62,6 @@ class read_data(object):
     'Internal_phase_correction', 'External_phase_correction', 
     'Noise_power_measurement', 'Phase_slope_correction' ] 
 
-    myDarlings = [ 'Jack', 'Bilha', 'Kate', 'Jasmine', 'Sara' ]
-
     def __init__(self):
         """
         create the class instance
