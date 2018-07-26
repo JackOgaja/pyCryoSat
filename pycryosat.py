@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__all__ = [ 'read_data', 'write_data' ]
+__all__ = [ 'fields', 'read_rdbl' ]
 
 __version__ = '0.1.0'
 __description__ = 'pycryosat'
@@ -9,19 +9,21 @@ __license__ = 'MIT'
 
 #------------------------#
 
+import os, sys, inspect
 import numpy as np
 import lib.csarray as csa 
+import itertools
 
 #------------------------#
 
-class read_data(object):
+class pycryosat(object):
     """
     Attributes.
     : read_file
     Reads .dbl/.hdr input files
     """
 
-    __FieldsStrings = [
+    __FieldsStrings_l2i = [
     'Day', 'Sec', 'Micsec', 'USO_Correction_factor', 'Mode_id', 
     'Src_Seq_Counter', 'Instrument_config', 'Rec_Counter', 
     'Lat', 'Lon', 'Altitude', 'Altitude_rate', 'Satellite_velocity', 
@@ -62,47 +64,86 @@ class read_data(object):
     'Internal_phase_correction', 'External_phase_correction', 
     'Noise_power_measurement', 'Phase_slope_correction' ] 
 
-    def __init__(self):
+    __FieldsFactors_l2i = [
+    1e-7, 1e-7, 1e-3, 1e-3, 1/1e3, 1/1e6, 1/1e6, 1e-7, 1e-7, 1e-7,
+    1e-3, 1e-3, 1e-3, 1/100, 1/100, 1/100, 1e-3, 1e-2, 1e-3, 1e-3,
+    1e-3, 1e-2, 1e-2, 1e-2, 1e-2,   1,     1,    1,    1,    1,  
+    1,    1,    1,     1,   1,      1,     1,    1,    1,    1, 
+    1,    1,    1,     1,   1,      1,     1,    1,    1,    1, 
+    1,    1,    1,     1,   1,      1,     1,    1,    1,    1, 
+    1,    1,    1,     1,   1,      1,     1,    1,    1,    1, 
+    1,    1,    1,     1,   1,      1,     1,    1,    1,    1, 
+    1,    1,    1,     1,   1,      1,     1,    1,    1,    1, 
+    1,    1,    1,     1,   1,      1,     1,    1,    1,    1, 
+    1,    1,    1,     1,   1,      1,     1,    1,    1,    1, 
+    1,    1,    1,     1,   1,      1,     1,    1,    1,    1, 
+    1,    1,    1,     1,   1,      1,     1,    1,    1,    1   ]  
+
+    def __init__(self, file_input, baseline):
         """
         create the class instance
         """
-        pass
+        self.input = file_input
+        self.base = baseline
 
     @property
     def fields(self):
-        return read_data.__FieldsStrings
-#        return "[" + ", ".join( str(x) for x in __FieldsStrings) + "]"
-#         for x in __FieldsStrings:
-#             print(x)
+        return self.__FieldsStrings_l2i
         
-#+    @fields.setter
-#+    def fields(self, fields):
-#+        pass 
-
-#    def __getattribute__(self, attr):
-#        if attr == 'fields':
-#           if len(__FieldsStrings) == 130:
-#              return read_data.__FieldsStrings
-#           else:
-#              raise AttributeError( "Attribute fields is not properly defined" )
-#        else:
-#           raise AttributeError
-
-    def read_dbl(file_input, baseline):
+    def __readFile(self):
         """
         read .dbl file 
         """
+        l2ia = [ csa.l2Iarray(self.input, self.base, kj)*kf 
+             for kj,kf in np.nditer([np.arange(1,131), self.__FieldsFactors_l2i]) ]
 
-        l2ia = [ csa.l2Iarray(file_input, 4, kj) 
-             for kj in np.arange(1,131) ]
+        return l2ia
 
+    @property
+    def readToDict(self):
+        """
+        read to dictionary 
+        """
+        
+        rn = self.__readFile()  
         ddict = {}
 
-        for n, dstr in enumerate(read_data.__FieldsStrings):
-            if dstr == 'Freeboard':
-               ddict[dstr] = l2ia[n]*0.01
-            else:
-               ddict[dstr] = l2ia[n]
+        for n, dstr in enumerate(self.__FieldsStrings_l2i):
+
+            ddict[dstr] = rn[n]
 
         return ddict 
+
+    @property
+    def readToCsvFile(self):
+        """
+        Write out data to a file
+        """
+        fname = 'pyOut.csv'
+        rd = self.__readFile()[0:11]
+
+        #- python 3X.
+        data = list(map(list, zip(*rd))) 
+
+        try:
+              import csv
+              try:
+                  with open(fname, 'w') as f:
+                        fn = self.__FieldsStrings_l2i[0:11]
+                        out_file = csv.DictWriter(f, fieldnames=fn, delimiter=';')
+                        out_file.writeheader()
+                        for rw in data:
+                             out_file.writerow({fn[0]: rw[0], fn[1]: rw[1], fn[2]: rw[2],
+                                                fn[3]: rw[3], fn[4]: rw[4], fn[5]: rw[5],
+                                                fn[6]: rw[6], fn[7]: rw[7], fn[8]: rw[8],
+                                                fn[9]: rw[9], fn[10]: rw[10]}) #, fn[11]: rw[11],
+#                                                fn[12]: rw[12], fn[13]: rw[13], fn[14]: rw[14]})
+
+
+              except csv.Error as e:
+                   sys.exit('file {}, line {}: {}'.format(filename, reader.line_num, e))
+
+        except ImportError:
+               raise ImportError('cannot import csv module')
+
 
