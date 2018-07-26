@@ -126,8 +126,68 @@ class pycryosat(object):
         Write out data to a file
         """
         fname = self.outfile 
-        rd = self.__readFile()[0:11]
+        df = self.__readFile()
 
+        rd = df[0:12]
+#        rd1 = df[0:12]
+#        rd2 = df[15:59]
+#        rd3 = df[60:130]
+        rdx = df[12][0]; rdy = df[12][1]; rdz = df[12][2] 
+        rdr1 = df[13][0]; rdr2 = df[13][1]; rdr3 = df[13][2]  
+        rdb1 = df[14][0]; rdb2 = df[14][1]; rdb3 = df[14][2]  
+        rdp1 = df[59][0]; rdp2 = df[59][1]; rdp3 = df[59][2]; rdp4 = df[59][3]; rdp5 = df[59][4] 
+        rdp6 = df[59][5]; rdp7 = df[59][6]; rdp8 = df[59][7]; rdp9 = df[59][8]; rdp10 = df[59][9] 
+        rdp11 = df[59][10]; rdp12 = df[59][11]; rdp13 = df[59][12]; rdp14 = df[59][13]; rdp15 = df[59][14] 
+        rdp16 = df[59][15]; rdp17 = df[59][16]; rdp18 = df[59][17]; rdp19 = df[59][18]; rdp20 = df[59][19] 
+        rdp21 = df[59][20]; rdp22 = df[59][21]; rdp23 = df[59][22]; rdp24 = df[59][23]; rdp25 = df[59][24] 
+        rdp26 = df[59][25]; rdp27 = df[59][26]; rdp28 = df[59][27]; rdp29 = df[59][28]; rdp30 = df[59][29] 
+        rdp31 = df[59][30]; rdp32 = df[59][31]; rdp33 = df[59][32]; rdp34 = df[59][33]; rdp35 = df[59][34] 
+        rdp36 = df[59][35]; rdp37 = df[59][36]; rdp38 = df[59][37]; rdp39 = df[59][38]; rdp40 = df[59][39] 
+        rdp41 = df[59][40]; rdp42 = df[59][41]; rdp43 = df[59][42]; rdp44 = df[59][43]; rdp45 = df[59][44] 
+        rdp46 = df[59][45]; rdp47 = df[59][46]; rdp48 = df[59][47]; rdp49 = df[59][48]; rdp50 = df[59][49] 
+
+        fn_sat = ['Satellite_Vx', 'Satellite_Vy', 'Satellite_Vz']
+        fn_rb = ['Real_beam1', 'Real_beam2', 'Real_beam3']
+        fn_bs = ['Baseline1', 'Baseline2', 'Baseline3']
+        fn_bb = [
+                 'Beam_b_param1', 'Beam_b_param2', 'Beam_b_param3', 'Beam_b_param4', 'Beam_b_param5'
+                 'Beam_b_param6', 'Beam_b_param7', 'Beam_b_param8', 'Beam_b_param9', 'Beam_b_param10'
+                 'Beam_b_param11', 'Beam_b_param12', 'Beam_b_param13', 'Beam_b_param14', 'Beam_b_param15'
+                 'Beam_b_param16', 'Beam_b_param17', 'Beam_b_param18', 'Beam_b_param19', 'Beam_b_param20'
+                 'Beam_b_param21', 'Beam_b_param22', 'Beam_b_param23', 'Beam_b_param24', 'Beam_b_param25'
+                 'Beam_b_param26', 'Beam_b_param27', 'Beam_b_param28', 'Beam_b_param29', 'Beam_b_param30'
+                 'Beam_b_param31', 'Beam_b_param32', 'Beam_b_param33', 'Beam_b_param34', 'Beam_b_param35'
+                 'Beam_b_param36', 'Beam_b_param37', 'Beam_b_param38', 'Beam_b_param39', 'Beam_b_param40'
+                 'Beam_b_param41', 'Beam_b_param42', 'Beam_b_param43', 'Beam_b_param44', 'Beam_b_param45'
+                 'Beam_b_param46', 'Beam_b_param47', 'Beam_b_param48', 'Beam_b_param49', 'Beam_b_param50'
+                ]
+
+#        print(rdx)
+#        print(rdb1)
+#        print(rdp1)
+
+        rd_c = np.concatenate((
+               df[0], df[1], df[2], df[3], df[4], df[5], df[6], df[7], df[8], df[9], 
+               df[10], df[11], rdx, rdy, rdz, rdr1, rdr2, rdr3, rdb1, rdb2, rdb3,  
+               df[15], df[16], df[17], df[18], df[19], df[20], df[21], df[22], df[23], df[24], 
+               df[25], df[26], df[27], df[28], df[29], df[30], df[31], df[32], df[33], df[34], 
+               df[35], df[36], df[37], df[38], df[39], df[40], df[41], df[42], df[43], df[44], 
+               df[45], df[46], df[47], df[48], df[49], df[50], df[51], df[52], df[53], df[54], 
+               df[55], df[56], df[57], df[58], 
+               rdp1, rdp2, rdp3, rdp4, rdp5, rdp6, rdp7, rdp8, rdp9, rdp10,
+               rdp11, rdp12, rdp13, rdp14, rdp15, rdp16, rdp17, rdp18, rdp19, rdp20,
+               rdp21, rdp22, rdp23, rdp24, rdp25, rdp26, rdp27, rdp28, rdp29, rdp30,
+               rdp31, rdp32, rdp33, rdp34, rdp35, rdp36, rdp37, rdp38, rdp39, rdp40,
+               rdp41, rdp42, rdp43, rdp44, rdp45, rdp46, rdp47, rdp48, rdp49, rdp50,
+               df[60], df[61], df[62], df[63], df[64], df[65], df[66], df[67], df[68], df[69], 
+               df[70], df[71], df[72], df[73], df[74], df[75], df[76], df[77], df[78], df[79], 
+               df[80], df[81], df[82], df[83], df[84], df[85], df[86], df[87], df[88], df[89], 
+               df[90], df[91], df[92], df[93], df[94], df[95], df[96], df[97], df[98], df[99], 
+               df[100], df[101], df[102], df[103], df[104], df[105], df[106], df[107], df[108], df[109], 
+               df[110], df[111], df[112], df[113], df[114], df[115], df[116], df[117], df[118], df[119], 
+               df[120], df[121], df[122], df[123], df[124], df[125], df[126], df[127], df[128], df[129] 
+                               ), axis=0)
+        fn_n = ''
         #- python 3X.
         data = list(map(list, zip(*rd))) 
 
@@ -135,14 +195,14 @@ class pycryosat(object):
               import csv
               try:
                   with open(fname, 'w') as f:
-                        fn = self.__FieldsStrings_l2i[0:11]
+                        fn = self.__FieldsStrings_l2i[0:12]
                         out_file = csv.DictWriter(f, fieldnames=fn, delimiter=';')
                         out_file.writeheader()
                         for rw in data:
                              out_file.writerow({fn[0]: rw[0], fn[1]: rw[1], fn[2]: rw[2],
                                                 fn[3]: rw[3], fn[4]: rw[4], fn[5]: rw[5],
                                                 fn[6]: rw[6], fn[7]: rw[7], fn[8]: rw[8],
-                                                fn[9]: rw[9], fn[10]: rw[10]}) #, fn[11]: rw[11],
+                                                fn[9]: rw[9], fn[10]: rw[10], fn[11]: rw[11]})
 #                                                fn[12]: rw[12], fn[13]: rw[13], fn[14]: rw[14]})
 
                   print(' The output file {} has been written'.format(fname))
