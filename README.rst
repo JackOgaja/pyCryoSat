@@ -40,7 +40,7 @@ from `European Space Agency's website <https://earth.esa.int/web/guest/software-
 
 Usage:
 ::
-    ~$ python example.py 
+    ~$ ./example.py 
 
 License:
 ========
