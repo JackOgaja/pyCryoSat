@@ -19,9 +19,14 @@ import itertools
 class pycryosat(object):
     """
     Attributes.
-    : read_file
+    : outfile: output file name
+    : readToDict: read data to a dictionary
+    : readToCsvFile: read data to a csv file
+
     Reads .dbl/.hdr input files
     """
+
+    outfile = 'pyCsOut.csv'
 
     __FieldsStrings_l2i = [
     'Day', 'Sec', 'Micsec', 'USO_Correction_factor', 'Mode_id', 
@@ -65,6 +70,7 @@ class pycryosat(object):
     'Noise_power_measurement', 'Phase_slope_correction' ] 
 
     __FieldsFactors_l2i = [
+    1,    1,    1,     1,   1,      1,     1,    1,   
     1e-7, 1e-7, 1e-3, 1e-3, 1/1e3, 1/1e6, 1/1e6, 1e-7, 1e-7, 1e-7,
     1e-3, 1e-3, 1e-3, 1/100, 1/100, 1/100, 1e-3, 1e-2, 1e-3, 1e-3,
     1e-3, 1e-2, 1e-2, 1e-2, 1e-2,   1,     1,    1,    1,    1,  
@@ -77,9 +83,9 @@ class pycryosat(object):
     1,    1,    1,     1,   1,      1,     1,    1,    1,    1, 
     1,    1,    1,     1,   1,      1,     1,    1,    1,    1, 
     1,    1,    1,     1,   1,      1,     1,    1,    1,    1, 
-    1,    1,    1,     1,   1,      1,     1,    1,    1,    1   ]  
+    1,    1,     ]  
 
-    def __init__(self, file_input, baseline):
+    def __init__(self, file_input, baseline=4):
         """
         create the class instance
         """
@@ -119,7 +125,7 @@ class pycryosat(object):
         """
         Write out data to a file
         """
-        fname = 'pyOut.csv'
+        fname = self.outfile 
         rd = self.__readFile()[0:11]
 
         #- python 3X.
@@ -139,9 +145,10 @@ class pycryosat(object):
                                                 fn[9]: rw[9], fn[10]: rw[10]}) #, fn[11]: rw[11],
 #                                                fn[12]: rw[12], fn[13]: rw[13], fn[14]: rw[14]})
 
+                  print(' The output file {} has been written'.format(fname))
 
-              except csv.Error as e:
-                   sys.exit('file {}, line {}: {}'.format(filename, reader.line_num, e))
+              except csv.Error as er:
+                   sys.exit('file {}, line {}: {}'.format(filename, reader.line_num, er))
 
         except ImportError:
                raise ImportError('cannot import csv module')

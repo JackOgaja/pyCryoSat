@@ -38,7 +38,7 @@ from `European Space Agency's website <https://earth.esa.int/web/guest/software-
     ~$ cd PyCryoSat
     ~$ python setup.py build_ext -b lib
 
-To test:
+Usage:
 ::
     ~$ python example.py 
 
