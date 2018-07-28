@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-__all__ = [ 'fields', 'read_rdbl' ]
-
 __version__ = '0.1.0'
 __description__ = 'pycryosat'
 __author__ = 'Jack Ogaja  <jack_ogaja@brown.edu> '
@@ -129,9 +127,6 @@ class pycryosat(object):
         df = self.__readFile()
 
         rd = df[0:12]
-#        rd1 = df[0:12]
-#        rd2 = df[15:59]
-#        rd3 = df[60:130]
         rdx = df[12][0]; rdy = df[12][1]; rdz = df[12][2] 
         rdr1 = df[13][0]; rdr2 = df[13][1]; rdr3 = df[13][2]  
         rdb1 = df[14][0]; rdb2 = df[14][1]; rdb3 = df[14][2]  
@@ -161,10 +156,6 @@ class pycryosat(object):
                  'Beam_b_param41', 'Beam_b_param42', 'Beam_b_param43', 'Beam_b_param44', 'Beam_b_param45'
                  'Beam_b_param46', 'Beam_b_param47', 'Beam_b_param48', 'Beam_b_param49', 'Beam_b_param50'
                 ]
-
-#        print(rdx)
-#        print(rdb1)
-#        print(rdp1)
 
         rd_c = np.concatenate((
                df[0], df[1], df[2], df[3], df[4], df[5], df[6], df[7], df[8], df[9], 
