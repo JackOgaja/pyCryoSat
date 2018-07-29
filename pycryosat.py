@@ -126,6 +126,7 @@ class pycryosat(object):
         fname = self.outfile 
         df = self.__readFile()
 
+        # consider the 3-D fields e.g. Satellite velocity, Real_beam, Baseline, and Beam_parameter
         rd = df[0:12]
         rdx = df[12][0]; rdy = df[12][1]; rdz = df[12][2] 
         rdr1 = df[13][0]; rdr2 = df[13][1]; rdr3 = df[13][2]  
@@ -178,23 +179,71 @@ class pycryosat(object):
                df[110], df[111], df[112], df[113], df[114], df[115], df[116], df[117], df[118], df[119], 
                df[120], df[121], df[122], df[123], df[124], df[125], df[126], df[127], df[128], df[129] 
                                ), axis=0)
-        fn_n = ''
+
+        fn   =      __FieldsStrings_l2i[:12] \ 
+                                    + fn_sat \
+                                     + fn_rb \
+                                     + fn_bs \
+                + __FieldsStrings_l2i[15:59] \
+                                     + fn_bb \
+                  + __FieldsStrings_l2i[60:] 
+
         #- python 3X.
-        data = list(map(list, zip(*rd))) 
+        data = list(map(list, zip(*rd_c))) 
 
         try:
               import csv
               try:
                   with open(fname, 'w') as f:
-                        fn = self.__FieldsStrings_l2i[0:12]
                         out_file = csv.DictWriter(f, fieldnames=fn, delimiter=';')
                         out_file.writeheader()
                         for rw in data:
-                             out_file.writerow({fn[0]: rw[0], fn[1]: rw[1], fn[2]: rw[2],
+                             out_file.writerow({
+                                                fn[0]: rw[0], fn[1]: rw[1], fn[2]: rw[2],
                                                 fn[3]: rw[3], fn[4]: rw[4], fn[5]: rw[5],
                                                 fn[6]: rw[6], fn[7]: rw[7], fn[8]: rw[8],
-                                                fn[9]: rw[9], fn[10]: rw[10], fn[11]: rw[11]})
-#                                                fn[12]: rw[12], fn[13]: rw[13], fn[14]: rw[14]})
+                                                fn[9]: rw[9], fn[10]: rw[10], fn[11]: rw[11],
+                                                fn[12]: rw[12], fn[13]: rw[13], fn[14]: rw[14],
+                                                fn[15]: rw[15], fn[16]: rw[16], fn[17]: rw[17],
+                                                fn[18]: rw[18], fn[19]: rw[19], fn[20]: rw[20],
+                                                fn[21]: rw[21], fn[22]: rw[22], fn[23]: rw[23],
+                                                fn[24]: rw[24], fn[25]: rw[25], fn[26]: rw[26],
+                                                fn[27]: rw[27], fn[28]: rw[28], fn[29]: rw[29],
+                                                fn[30]: rw[30], fn[31]: rw[31], fn[32]: rw[32],
+                                                fn[33]: rw[33], fn[34]: rw[34], fn[35]: rw[35],
+                                                fn[36]: rw[36], fn[37]: rw[37], fn[38]: rw[38],
+                                                fn[39]: rw[39], fn[40]: rw[40], fn[41]: rw[41],
+                                                fn[42]: rw[42], fn[43]: rw[43], fn[44]: rw[44],
+                                                fn[45]: rw[45], fn[46]: rw[46], fn[47]: rw[47],
+                                                fn[48]: rw[48], fn[49]: rw[49], fn[50]: rw[50],
+                                                fn[51]: rw[51], fn[52]: rw[52], fn[53]: rw[53],
+                                                fn[54]: rw[54], fn[55]: rw[55], fn[56]: rw[56],
+                                                fn[57]: rw[57], fn[58]: rw[58], fn[59]: rw[59],
+                                                fn[60]: rw[60], fn[61]: rw[61], fn[62]: rw[62],
+                                                fn[63]: rw[63], fn[64]: rw[64], fn[65]: rw[65],
+                                                fn[66]: rw[66], fn[67]: rw[67], fn[68]: rw[68],
+                                                fn[69]: rw[69], fn[70]: rw[70], fn[71]: rw[71],
+                                                fn[72]: rw[72], fn[73]: rw[73], fn[74]: rw[74],
+                                                fn[75]: rw[75], fn[76]: rw[76], fn[77]: rw[77],
+                                                fn[78]: rw[78], fn[79]: rw[79], fn[80]: rw[80],
+                                                fn[81]: rw[81], fn[82]: rw[82], fn[83]: rw[83],
+                                                fn[84]: rw[84], fn[85]: rw[85], fn[86]: rw[86],
+                                                fn[87]: rw[87], fn[88]: rw[88], fn[89]: rw[89],
+                                                fn[90]: rw[90], fn[91]: rw[91], fn[92]: rw[92],
+                                                fn[93]: rw[93], fn[94]: rw[94], fn[95]: rw[95],
+                                                fn[96]: rw[96], fn[97]: rw[97], fn[98]: rw[98],
+                                                fn[99]: rw[99], fn[100]: rw[100], fn[101]: rw[101],
+                                                fn[102]: rw[102], fn[103]: rw[103], fn[104]: rw[104],
+                                                fn[105]: rw[105], fn[106]: rw[106], fn[107]: rw[107],
+                                                fn[108]: rw[108], fn[109]: rw[109], fn[110]: rw[110],
+                                                fn[111]: rw[111], fn[112]: rw[112], fn[113]: rw[113],
+                                                fn[114]: rw[114], fn[115]: rw[115], fn[116]: rw[116],
+                                                fn[117]: rw[117], fn[118]: rw[118], fn[119]: rw[119],
+                                                fn[120]: rw[120], fn[121]: rw[121], fn[122]: rw[122],
+                                                fn[123]: rw[123], fn[124]: rw[124], fn[125]: rw[125],
+                                                fn[126]: rw[126], fn[127]: rw[127], fn[128]: rw[128],
+                                                fn[129]: rw[129]
+                                                })
 
                   print(' The output file {} has been written'.format(fname))
 
