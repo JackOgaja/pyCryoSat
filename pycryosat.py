@@ -180,7 +180,7 @@ class pycryosat(object):
                df[120], df[121], df[122], df[123], df[124], df[125], df[126], df[127], df[128], df[129] 
                                ), axis=0)
 
-        fn   =      __FieldsStrings_l2i[:12] \ 
+        fn   =      __FieldsStrings_l2i[:12] \
                                     + fn_sat \
                                      + fn_rb \
                                      + fn_bs \
