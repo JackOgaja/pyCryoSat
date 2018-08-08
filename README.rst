@@ -27,6 +27,9 @@ Mullard Space Science Laboratory, UCL, London
   |- pycryosat.py  
   |- example.py  
 
+*Dependencies*
+    - python3.5
+
 *Before installation:*
 
 -Download and install mssl-cryosat I/O library
@@ -36,7 +39,7 @@ from `European Space Agency's website <https://earth.esa.int/web/guest/software-
 ::
     ~$ git clone https://github.com/JackOgaja/PyCryoSat.git
     ~$ cd PyCryoSat
-    ~$ python3 setup.py build_ext -b lib
+    ~$ python3.5 setup.py build_ext -b lib
 
 Usage:
 ::

@@ -92,7 +92,8 @@ class pycryosat(object):
 
     @property
     def fields(self):
-        return self.__FieldsStrings_l2i
+#        return self.__FieldsStrings_l2i
+        return list(self.__FieldsStrings_l2i)
         
     def __readFile(self):
         """
@@ -118,15 +119,12 @@ class pycryosat(object):
 
         return ddict 
 
-    @property
-    def readToCsvFile(self):
-        """
-        Write out data to a file
-        """
-        fname = self.outfile 
+    def data_iter(self):
+
+
         df = self.__readFile()
 
-        # consider the 3-D fields e.g. Satellite velocity, Real_beam, Baseline, and Beam_parameter
+        # consider the 2-D fields e.g. Satellite velocity, Real_beam, Baseline, and Beam_parameter
         rd = df[0:12]
         rdx = df[12][0]; rdy = df[12][1]; rdz = df[12][2] 
         rdr1 = df[13][0]; rdr2 = df[13][1]; rdr3 = df[13][2]  
@@ -141,6 +139,34 @@ class pycryosat(object):
         rdp36 = df[59][35]; rdp37 = df[59][36]; rdp38 = df[59][37]; rdp39 = df[59][38]; rdp40 = df[59][39] 
         rdp41 = df[59][40]; rdp42 = df[59][41]; rdp43 = df[59][42]; rdp44 = df[59][43]; rdp45 = df[59][44] 
         rdp46 = df[59][45]; rdp47 = df[59][46]; rdp48 = df[59][47]; rdp49 = df[59][48]; rdp50 = df[59][49] 
+
+        yield  df[0], df[1], df[2], df[3], df[4], df[5], df[6], df[7], df[8], df[9], \
+               df[10], df[11], rdx, rdy, rdz, rdr1, rdr2, rdr3, rdb1, rdb2, rdb3,    \
+               df[15], df[16], df[17], df[18], df[19], df[20], df[21], df[22], df[23], df[24], \
+               df[25], df[26], df[27], df[28], df[29], df[30], df[31], df[32], df[33], df[34], \
+               df[35], df[36], df[37], df[38], df[39], df[40], df[41], df[42], df[43], df[44], \
+               df[45], df[46], df[47], df[48], df[49], df[50], df[51], df[52], df[53], df[54], \
+               df[55], df[56], df[57], df[58],                                                 \
+               rdp1, rdp2, rdp3, rdp4, rdp5, rdp6, rdp7, rdp8, rdp9, rdp10,                    \
+               rdp11, rdp12, rdp13, rdp14, rdp15, rdp16, rdp17, rdp18, rdp19, rdp20,           \
+              rdp21, rdp22, rdp23, rdp24, rdp25, rdp26, rdp27, rdp28, rdp29, rdp30,           \
+               rdp31, rdp32, rdp33, rdp34, rdp35, rdp36, rdp37, rdp38, rdp39, rdp40,           \
+               rdp41, rdp42, rdp43, rdp44, rdp45, rdp46, rdp47, rdp48, rdp49, rdp50,           \
+              df[60], df[61], df[62], df[63], df[64], df[65], df[66], df[67], df[68], df[69], \
+               df[70], df[71], df[72], df[73], df[74], df[75], df[76], df[77], df[78], df[79], \
+               df[80], df[81], df[82], df[83], df[84], df[85], df[86], df[87], df[88], df[89], \
+              df[90], df[91], df[92], df[93], df[94], df[95], df[96], df[97], df[98], df[99], \
+               df[100], df[101], df[102], df[103], df[104], df[105], df[106], df[107], df[108], df[109],\
+               df[110], df[111], df[112], df[113], df[114], df[115], df[116], df[117], df[118], df[119],\
+               df[120], df[121], df[122], df[123], df[124], df[125], df[126], df[127], df[128], df[129] 
+
+    @property
+    def readToCsvFile(self):
+        """
+        Write out data to a file
+       """
+
+        fname = self.outfile 
 
         fn_sat = ['Satellite_Vx', 'Satellite_Vy', 'Satellite_Vz']
         fn_rb = ['Real_beam1', 'Real_beam2', 'Real_beam3']
@@ -158,38 +184,16 @@ class pycryosat(object):
                  'Beam_b_param46', 'Beam_b_param47', 'Beam_b_param48', 'Beam_b_param49', 'Beam_b_param50'
                 ]
 
-        rd_c = np.concatenate((
-               df[0], df[1], df[2], df[3], df[4], df[5], df[6], df[7], df[8], df[9], 
-               df[10], df[11], rdx, rdy, rdz, rdr1, rdr2, rdr3, rdb1, rdb2, rdb3,  
-               df[15], df[16], df[17], df[18], df[19], df[20], df[21], df[22], df[23], df[24], 
-               df[25], df[26], df[27], df[28], df[29], df[30], df[31], df[32], df[33], df[34], 
-               df[35], df[36], df[37], df[38], df[39], df[40], df[41], df[42], df[43], df[44], 
-               df[45], df[46], df[47], df[48], df[49], df[50], df[51], df[52], df[53], df[54], 
-               df[55], df[56], df[57], df[58], 
-               rdp1, rdp2, rdp3, rdp4, rdp5, rdp6, rdp7, rdp8, rdp9, rdp10,
-               rdp11, rdp12, rdp13, rdp14, rdp15, rdp16, rdp17, rdp18, rdp19, rdp20,
-               rdp21, rdp22, rdp23, rdp24, rdp25, rdp26, rdp27, rdp28, rdp29, rdp30,
-               rdp31, rdp32, rdp33, rdp34, rdp35, rdp36, rdp37, rdp38, rdp39, rdp40,
-               rdp41, rdp42, rdp43, rdp44, rdp45, rdp46, rdp47, rdp48, rdp49, rdp50,
-               df[60], df[61], df[62], df[63], df[64], df[65], df[66], df[67], df[68], df[69], 
-               df[70], df[71], df[72], df[73], df[74], df[75], df[76], df[77], df[78], df[79], 
-               df[80], df[81], df[82], df[83], df[84], df[85], df[86], df[87], df[88], df[89], 
-               df[90], df[91], df[92], df[93], df[94], df[95], df[96], df[97], df[98], df[99], 
-               df[100], df[101], df[102], df[103], df[104], df[105], df[106], df[107], df[108], df[109], 
-               df[110], df[111], df[112], df[113], df[114], df[115], df[116], df[117], df[118], df[119], 
-               df[120], df[121], df[122], df[123], df[124], df[125], df[126], df[127], df[128], df[129] 
-                               ), axis=0)
-
-        fn   =      __FieldsStrings_l2i[:12] \ 
-                                    + fn_sat \
-                                     + fn_rb \
-                                     + fn_bs \
-                + __FieldsStrings_l2i[15:59] \
-                                     + fn_bb \
-                  + __FieldsStrings_l2i[60:] 
+        fn   =      self.__FieldsStrings_l2i[:12] \
+                                         + fn_sat \
+                                          + fn_rb \
+                                          + fn_bs \
+                + self.__FieldsStrings_l2i[15:59] \
+                                          + fn_bb \
+                  + self.__FieldsStrings_l2i[60:] 
 
         #- python 3X.
-        data = list(map(list, zip(*rd_c))) 
+        data = self.data_iter()
 
         try:
               import csv

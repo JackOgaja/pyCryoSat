@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.5
 
 import numpy as np
 from pycryosat import pycryosat as pc 
