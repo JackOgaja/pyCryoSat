@@ -1,0 +1,12 @@
+language: python
+
+os:
+  - linux
+  - osx
+
+compiler:
+  - gcc
+  - clang
+
+script: setup2.py && test.py
+

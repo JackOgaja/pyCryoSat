@@ -2,7 +2,7 @@
 
 __version__ = '0.1.0'
 __description__ = 'pycryosat'
-__author__ = 'Jack Ogaja  <jack_ogaja@brown.edu> '
+__author__ = 'Jack Ogaja  <jack.ogaja@gmail.com> '
 __license__ = 'MIT'
 
 #------------------------#

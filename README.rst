@@ -29,6 +29,7 @@ Mullard Space Science Laboratory, UCL, London
 
 *Dependencies*
     - python3.5
+    - mssl-cryosat: http://cryosat.mssl.ucl.ac.uk
 
 *Before installation:*
 
