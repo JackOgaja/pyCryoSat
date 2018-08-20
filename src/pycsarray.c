@@ -116,7 +116,7 @@ array_CRYOSAT(int nd, npy_intp* dims, field_properties f_p,
       return arrayRet;
 } /* array_CRYOSAT */
 
-//die Hauptfunktion
+// the main function
 static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args)
 {
     int base, fieldNum;
@@ -1617,5 +1617,5 @@ static PyObject *csarray_l2Iarray(PyObject *self, PyObject *args)
 
     return PyArray_Return(arrayObj);
       
-} /* die Hauptfunktion */ 
+} /* the main function */ 
 
