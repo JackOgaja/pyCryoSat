@@ -3,6 +3,8 @@
 import numpy as np
 from pycryosat import pycryosat as pc 
 
+## See TODO file for optimization
+
 inFile = '<path_to_.DBL_file>' # locate the input fsile
 baseline = 4 # see the library documentation 
              # for different baselines definitions
