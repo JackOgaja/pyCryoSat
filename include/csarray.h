@@ -348,5 +348,12 @@ field_properties getProperties( int nd, int n, int s, npy_intp* ss );
 
 L2IData* csarray( t_cs_filehandle fH, long int n_records );
 
+// For GPUs
+L2IData* d_csGetL2I(     t_cs_filehandle d_hand, 
+                                   long int d_i, 
+                     unsigned long long int d_N, 
+                     unsigned long long int d_n, 
+                                L2IData* h_data);
+
 #endif // #ifndef _CSARRAY_H_
 

@@ -237,7 +237,9 @@ csarray( t_cs_filehandle fH, long int n_records )
 
     L2IData*  fDataL2 = NULL;
     // MSSL I/O librarry
-    fDataL2 = ptCSGetL2I( fH, 0, n_records, 0, NULL );
+    //fDataL2 = ptCSGetL2I( fH, 0, n_records, 0, NULL );
+    // For GPUs
+    fDataL2 = d_csGetL2I( fH, 0, n_records, 0, NULL );
 
     if( fDataL2 != NULL )
     {

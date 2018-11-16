@@ -5,7 +5,7 @@ PyCryoSat
 
 *Overview:*
 
-PyCryoSat is a python C-extension module for reading European Space Agency's 
+PyCryoSat is a python C-extension and CUDA module for reading European Space Agency's 
 CryoSat-2 satellite In-depth L2 Measurement Data Set Records (L2I MDS) - 
 https://earth.esa.int/web/eoportal/satellite-missions/c-missions/cryosat-2.
 This extension uses an I/O library prepared by the software team at
@@ -20,6 +20,8 @@ Mullard Space Science Laboratory, UCL, London
   |- src  
   |    |- csarray.c 
   |    |- pycsarray.c 
+  |- cuda  
+  |    |- d_csGetL2I.cu  
   |- include  
   |    |- csarray.h  
   |- lib  
