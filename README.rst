@@ -42,6 +42,8 @@ from `European Space Agency's website <https://earth.esa.int/web/guest/software-
 ::
     ~$ git clone https://github.com/JackOgaja/PyCryoSat.git
     ~$ cd PyCryoSat
+
+    specify the absolute path to the MSSL IO library - the 'msslDir' variable in the setup.py
     ~$ python3.5 setup.py build_ext -b lib
 
 Usage:
