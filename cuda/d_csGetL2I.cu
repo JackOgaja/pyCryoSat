@@ -90,7 +90,7 @@ d_csGetL2I(t_cs_filehandle   h_t_handle,
 
   if( h_t_handle->pt_filepointer == NULL ) return NULL; 
 
-  if( h_t_handle->j_num_datasets <= j_dataset_index ) return NULL; 
+  if( h_t_handle->j_num_datasets <= d_i ) return NULL; 
 
   if( h_t_handle->j_type != CS_L2I_DS_NAME_ANY )
   {
