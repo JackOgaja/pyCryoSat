@@ -87,6 +87,7 @@ class pycryosat(object):
     'Internal_phase_correction', 'External_phase_correction', 
     'Noise_power_measurement', 'Phase_slope_correction' ] 
 
+# Modify the following numbers appropriately to cupture the correct variable units.
     __FieldsFactors_l2i = [
     1,    1,    1,     1,   1,      1,     1,    1,   
     1e-7, 1e-7, 1e-3, 1e-3, 1/1e3, 1/1e6, 1/1e6, 1e-7, 1e-7, 1e-7,
